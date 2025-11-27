@@ -1,0 +1,279 @@
+metadata:
+  name: Java Log Assessment Framework
+  version: 1.0.0
+  language: java
+  description: >-
+    Comprehensive assessment of logging practices for Java applications covering
+    coverage, centralization, structure, enrichment, retention, searchability,
+    alerting, correlation, ingestion monitoring, ITSM integration, and access
+    control.
+  framework: observability
+  author: Assessment Agent System
+  created_date: 2025-10-18T00:00:00.000Z
+  tags:
+    - observability
+    - logging
+    - monitoring
+file_processing:
+  include_patterns:
+    - '*.java'
+  exclude_patterns: []
+scoring_rules:
+  grade_thresholds:
+    excellent: 4.5
+    good: 3.5
+    fair: 2.5
+    poor: 1.5
+assessment_categories:
+  Log_Coverage_1:
+    name: Log Coverage-1
+    description: >-
+      Are logs collected from all critical systems, services, and infrastructure
+      components?
+    weight: 8
+    max_score: 5
+    criteria:
+      - name: log_coverage_check
+        description: Check if logs are collected from critical systems and services
+        patterns:
+          - .*log.*
+          - .*logger.*
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: Log coverage assessment found {count} relevant logging patterns.
+        recommendations:
+          missing: >-
+            Ensure logs are collected from all critical systems, services, and
+            infrastructure components.
+          partial: Increase log coverage to include all critical components.
+          good: Maintain comprehensive log coverage across critical systems.
+  Log_Coverage_2:
+    name: Log Coverage-2
+    description: What is current log coverage from critical services/servers?
+    weight: 7
+    max_score: 5
+    criteria:
+      - name: log_coverage_percentage
+        description: >-
+          Measure current log coverage percentage from critical services and
+          servers
+        patterns:
+          - .*log.*
+        scoring:
+          coverage_90_plus: 5
+          coverage_70_90: 4
+          coverage_50_70: 3
+          coverage_30_50: 2
+          coverage_below_30: 1
+        observation_template: Current log coverage is {percentage}% across critical services.
+        recommendations:
+          missing: Establish baseline log coverage metrics for critical services.
+          partial: Improve log coverage to exceed 70% for critical services.
+          good: Maintain log coverage above 90% for critical services.
+  Log_Centralization:
+    name: Log Centralization
+    description: Are logs centralized in a unified platform for search and analysis?
+    weight: 6
+    max_score: 5
+    criteria:
+      - name: log_centralization_check
+        description: Detect if logs are centralized in a unified platform
+        patterns:
+          - ElasticSearch
+          - Splunk
+          - Logstash
+          - Fluentd
+          - Graylog
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: 'Log centralization platforms detected: {count}.'
+        recommendations:
+          missing: Implement a centralized log management platform.
+          partial: Consolidate logs into a unified platform for better analysis.
+          good: Maintain centralized log platform for efficient search and analysis.
+  Structured_Logging:
+    name: Structured Logging
+    description: >-
+      Are logs structured (e.g., JSON) to support parsing, correlation, and
+      enrichment?
+    weight: 7
+    max_score: 5
+    criteria:
+      - name: structured_logging_check
+        description: Check for structured logging formats such as JSON
+        patterns:
+          - \{\s*".*"\s*:\s*".*"\s*\}
+          - log\.info\(.*\{.*\}.*\)
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: Structured logging usage found in {count} instances.
+        recommendations:
+          missing: Adopt structured logging formats like JSON for logs.
+          partial: >-
+            Increase use of structured logging for better parsing and
+            correlation.
+          good: Maintain structured logging practices for all logs.
+  Log_Enrichment:
+    name: Log Enrichment
+    description: >-
+      Are logs enriched with contextual metadata (e.g., trace ID, user ID,
+      environment)?
+    weight: 6.5
+    max_score: 5
+    criteria:
+      - name: log_enrichment_check
+        description: >-
+          Detect enrichment of logs with contextual metadata such as trace ID or
+          user ID
+        patterns:
+          - traceId
+          - userId
+          - environment
+          - sessionId
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: Log enrichment metadata found in {count} log entries.
+        recommendations:
+          missing: Add contextual metadata like trace ID and user ID to logs.
+          partial: Enhance log enrichment with additional contextual metadata.
+          good: Maintain comprehensive log enrichment with contextual metadata.
+  Log_Retention_and_Rotation:
+    name: Log Retention & Rotation
+    description: Are logs rotated and retained according to policy and compliance needs?
+    weight: 5.5
+    max_score: 5
+    criteria:
+      - name: log_retention_rotation_check
+        description: Verify log rotation and retention policies are implemented
+        patterns:
+          - logrotate
+          - retentionPolicy
+          - maxFileSize
+          - maxBackupIndex
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: >-
+          Log retention and rotation policies detected in {count}
+          configurations.
+        recommendations:
+          missing: Implement log rotation and retention policies to meet compliance.
+          partial: Review and improve log retention and rotation configurations.
+          good: Maintain effective log rotation and retention policies.
+  Log_Query_and_Searchability:
+    name: Log Query & Searchability
+    description: Are logs easily searchable and queryable for troubleshooting and analysis?
+    weight: 6
+    max_score: 5
+    criteria:
+      - name: log_query_searchability_check
+        description: Check if logs are indexed and searchable for troubleshooting
+        patterns:
+          - index
+          - search
+          - query
+          - Kibana
+          - Splunk
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: >-
+          Log search and query capabilities found in {count} tools or
+          configurations.
+        recommendations:
+          missing: Enable log indexing and search capabilities for troubleshooting.
+          partial: Improve log searchability and query performance.
+          good: Maintain robust log search and query infrastructure.
+  Log_Alerting:
+    name: Log Alerting
+    description: Are alerts generated based on log patterns, errors, or anomalies?
+    weight: 6.5
+    max_score: 5
+    criteria:
+      - name: log_alerting_check
+        description: Detect alerting mechanisms based on log data
+        patterns:
+          - alert
+          - threshold
+          - anomalyDetection
+          - watcher
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: 'Log alerting rules detected: {count}.'
+        recommendations:
+          missing: Implement alerting based on log patterns and anomalies.
+          partial: Enhance alerting rules for better incident detection.
+          good: Maintain comprehensive log alerting mechanisms.
+  Log_Correlation:
+    name: Log Correlation
+    description: Are logs correlated with metrics and traces for root cause analysis?
+    weight: 7
+    max_score: 5
+    criteria:
+      - name: log_correlation_check
+        description: Check correlation between logs, metrics, and traces
+        patterns:
+          - traceId
+          - spanId
+          - correlationId
+          - metrics
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: Correlation identifiers found in {count} log entries.
+        recommendations:
+          missing: Establish correlation between logs, metrics, and traces.
+          partial: Improve correlation for enhanced root cause analysis.
+          good: Maintain strong correlation between logs, metrics, and traces.
+  Log_Ingestion_Monitoring:
+    name: Log Ingestion Monitoring
+    description: Is log ingestion monitored for delays, drops, or volume spikes?
+    weight: 5
+    max_score: 5
+    criteria:
+      - name: log_ingestion_monitoring_check
+        description: Detect monitoring of log ingestion pipelines
+        patterns:
+          - ingestionDelay
+          - dropCount
+          - volumeSpike
+          - pipelineHealth
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: 'Log ingestion monitoring metrics found: {count}.'
+        recommendations:
+          missing: Implement monitoring for log ingestion delays, drops, and spikes.
+          partial: Enhance monitoring coverage for log ingestion pipelines.
+          good: Maintain comprehensive log ingestion monitoring.
+  ITSM_Integration_and_Enrichment:
+    name: ITSM Integration & Enrichment
+    description: >-
+      Are logs integrated with ITSM platforms for automated incident creation
+      and enrichment?
+    weight: 5.5
+    max_score: 5
+    criteria:
+      - name: itsm_integration_check
+        description: Check integration of logs with ITSM platforms
+        patterns:
+          - ServiceNow
+          - Jira
+          - incidentCreation
+          - ticketing
+        scoring:
+          comprehensive: null
