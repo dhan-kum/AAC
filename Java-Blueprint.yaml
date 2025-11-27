@@ -1,0 +1,234 @@
+metadata:
+  name: Log Coverage Assessment Framework
+  version: 1.0.0
+  language: java
+  description: >-
+    Comprehensive assessment of log coverage, centralization, structure,
+    enrichment, retention, searchability, alerting, correlation, ingestion
+    monitoring, and ITSM integration for Java applications.
+  framework: observability
+  author: Assessment Agent System
+  created_date: 2024-06-01T00:00:00.000Z
+  tags:
+    - observability
+    - logging
+    - monitoring
+file_processing:
+  include_patterns:
+    - '*.java'
+    - '*.xml'
+    - '*.properties'
+    - '*.yml'
+    - '*.yaml'
+  exclude_patterns:
+    - test/*
+    - docs/*
+    - '*.md'
+scoring_rules:
+  grade_thresholds:
+    excellent: 4.5
+    good: 3.5
+    fair: 2.5
+    poor: 1.5
+  category_weights:
+    log_coverage: 10
+    log_centralization: 8
+    structured_logging: 9
+    log_enrichment: 7
+    log_retention_rotation: 6
+    log_query_searchability: 7
+    log_alerting: 8
+    log_correlation: 7
+    log_ingestion_monitoring: 6
+    itsm_integration_enrichment: 5
+assessment_categories:
+  - description: >-
+      Are logs collected from all critical systems, services, and
+      infrastructureAAAAA components?
+    weight: 10
+    max_score: 5
+    criteria:
+      - name: log_coverage_check
+        description: What is current log coverage from critical services/servers?
+        patterns:
+          - logger\.info
+          - logger\.debug
+          - logger\.error
+          - logger\.warn
+        scoring:
+          coverage_90_plus: 5
+          coverage_70_90: 4
+          coverage_50_70: 3
+          coverage_30_50: 2
+          coverage_below_30: 1
+        observation_template: >-
+          Log coverage detected in {count} critical service files out of
+          {total}.
+    name: Log Coverage
+  - name: Log Centralization
+    description: Are logs centralized in a unified platform for search and analysis?
+    weight: 8
+    max_score: 5
+    criteria:
+      - name: log_centralization_check
+        description: Detection of log forwarding or centralization configurations
+        patterns:
+          - logstash
+          - fluentd
+          - elk
+          - graylog
+          - splunk
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: Log centralization tools/configurations found in {count} files.
+  - name: Structured Logging
+    description: >-
+      Are logs structured (e.g., JSON) to support parsing, correlation, and
+      enrichment?
+    weight: 9
+    max_score: 5
+    criteria:
+      - name: structured_logging_check
+        description: Usage of structured logging formats such as JSON
+        patterns:
+          - logger\.info\(.*\{.*\}.*\)
+          - log\.info\(.*\{.*\}.*\)
+          - jsonlogger
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: Structured logging patterns found in {count} files.
+  - name: Log Enrichment
+    description: >-
+      Are logs enriched with contextual metadata (e.g., trace ID, user ID,
+      environment)?
+    weight: 7
+    max_score: 5
+    criteria:
+      - name: log_enrichment_check
+        description: Presence of contextual metadata in logs such as trace ID or user ID
+        patterns:
+          - traceId
+          - userId
+          - environment
+          - sessionId
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: Contextual metadata enrichment found in {count} log statements.
+  - name: Log Retention & Rotation
+    description: Are logs rotated and retained according to policy and compliance needs?
+    weight: 6
+    max_score: 5
+    criteria:
+      - name: log_retention_rotation_check
+        description: Configuration of log rotation and retention policies
+        patterns:
+          - logrotate
+          - rollingFileAppender
+          - TimeBasedRollingPolicy
+          - maxHistory
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: Log retention and rotation configurations found in {count} files.
+  - name: Log Query & Searchability
+    description: Are logs easily searchable and queryable for troubleshooting and analysis?
+    weight: 7
+    max_score: 5
+    criteria:
+      - name: log_query_searchability_check
+        description: >-
+          Use of log formats and tools that support efficient querying and
+          searching
+        patterns:
+          - elk
+          - kibana
+          - splunk
+          - query
+          - search
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: Log query/search tools or configurations found in {count} files.
+  - name: Log Alerting
+    description: Are alerts generated based on log patterns, errors, or anomalies?
+    weight: 8
+    max_score: 5
+    criteria:
+      - name: log_alerting_check
+        description: Presence of alerting rules or configurations based on logs
+        patterns:
+          - alertmanager
+          - prometheus_alert
+          - log_alert
+          - threshold
+          - anomaly_detection
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: Log alerting configurations found in {count} files.
+  - name: Log Correlation
+    description: Are logs correlated with metrics and traces for root cause analysis?
+    weight: 7
+    max_score: 5
+    criteria:
+      - name: log_correlation_check
+        description: Correlation of logs with metrics and tracing systems
+        patterns:
+          - traceId
+          - spanId
+          - correlationId
+          - opentracing
+          - jaeger
+          - zipkin
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: Log correlation with metrics/traces found in {count} files.
+  - name: Log Ingestion Monitoring
+    description: Is log ingestion monitored for delays, drops, or volume spikes?
+    weight: 6
+    max_score: 5
+    criteria:
+      - name: log_ingestion_monitoring_check
+        description: Monitoring configurations for log ingestion pipelines
+        patterns:
+          - ingestion_monitor
+          - log_pipeline_monitor
+          - delay_alert
+          - drop_alert
+          - volume_spike
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: Log ingestion monitoring found in {count} files.
+  - name: ITSM Integration & Enrichment
+    description: >-
+      Are logs integrated with ITSM platforms for automated incident creation
+      and enrichment?
+    weight: 5
+    max_score: 5
+    criteria:
+      - name: itsm_integration_check
+        description: Integration of logs with ITSM tools for incident management
+        patterns:
+          - servicenow
+          - jira
+          - zendesk
+          - incident_creation
+          - itsm_integration
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        observation_template: ITSM integration configurations found in {count} files.
