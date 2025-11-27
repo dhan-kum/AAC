@@ -1,0 +1,85 @@
+architecture: AWS 3-Tier Web App Demo
+
+layers:
+  - name: Web Tier
+    subnets:
+      - type: Public subnet
+        availability_zone: AZ1
+        components:
+          - type: Amazon EC2
+            id: web-ec2-1
+      - type: Public subnet
+        availability_zone: AZ2
+        components:
+          - type: Amazon EC2
+            id: web-ec2-2
+
+  - name: App Tier
+    subnets:
+      - type: Private subnet
+        availability_zone: AZ1
+        components:
+          - type: Amazon EC2
+            id: app-ec2-1
+      - type: Private subnet
+        availability_zone: AZ2
+        components:
+          - type: Amazon EC2
+            id: app-ec2-2
+
+  - name: Database Tier
+    subnets:
+      - type: Private subnet
+        availability_zone: AZ1
+        components:
+          - type: Amazon Aurora Primary DB
+            id: aurora-primary
+      - type: Private subnet
+        availability_zone: AZ2
+        components:
+          - type: Aurora Read Replica
+            id: aurora-replica
+
+shared_components:
+  - type: VPC
+    id: vpc-1
+  - type: Internet Gateway
+    id: igw-1
+  - type: Elastic Load Balancing (ELB)
+    id: elb-1
+
+connections:
+  - from: Internet Gateway
+    to: Elastic Load Balancing (ELB)
+    direction: inbound
+  - from: Elastic Load Balancing (ELB)
+    to: web-ec2-1
+    direction: inbound
+  - from: Elastic Load Balancing (ELB)
+    to: web-ec2-2
+    direction: inbound
+  - from: web-ec2-1
+    to: app-ec2-1
+    direction: inbound
+  - from: web-ec2-2
+    to: app-ec2-2
+    direction: inbound
+  - from: app-ec2-1
+    to: aurora-primary
+    direction: inbound
+  - from: app-ec2-2
+    to: aurora-primary
+    direction: inbound
+  - from: aurora-primary
+    to: aurora-replica
+    direction: replication
+
+metadata:
+  availability_zones:
+    - AZ1
+    - AZ2
+  high_availability: true
+  scalability: Multi-AZ, multi-instance
+  security:
+    - Web tier in public subnet
+    - App and DB tiers in private subnet
