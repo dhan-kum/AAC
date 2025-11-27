@@ -1,0 +1,272 @@
+metadata:
+  name: Java Log Assessment Framework
+  version: 1.0.0
+  language: java
+  description: >-
+    Comprehensive logging assessment rules for Java applications based on
+    critical log coverage and management practices
+  framework: observability
+  author: Assessment Agent System
+  created_date: 2025-06-01T00:00:00.000Z
+  tags:
+    - observability
+    - logging
+    - monitoring
+file_processing:
+  include_patterns:
+    - '*.java'
+  exclude_patterns: []
+scoring_rules:
+  grade_thresholds:
+    excellent: 4.5
+    good: 3.5
+    fair: 2.5
+    poor: 1.5
+assessment_categories:
+  - name: Log Coverage-1
+    description: >-
+      Are logs collected from all critical systems, services, and infrastructure
+      components?
+    weight: 8
+    max_score: 5
+    criteria:
+      - name: log_coverage_presence
+        description: Detect presence of logging statements in critical system components
+        patterns:
+          - logger\.info
+          - logger\.warn
+          - logger\.error
+          - log\.info
+          - log\.warn
+          - log\.error
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        recommendations:
+          missing: Add logging statements to all critical systems and services
+          partial: Increase logging coverage in critical components
+          good: Maintain comprehensive logging coverage
+        file_types:
+          - '*.java'
+  - name: Log Coverage-2
+    description: What is current log coverage from critical services/servers?
+    weight: 7
+    max_score: 5
+    criteria:
+      - name: log_coverage_percentage
+        description: Measure percentage of code coverage with logging in critical services
+        patterns:
+          - logger\.
+          - log\.
+        scoring:
+          coverage_90_plus: 5
+          coverage_70_90: 4
+          coverage_50_70: 3
+          coverage_30_50: 2
+          coverage_below_30: 1
+        recommendations:
+          missing: Implement logging in critical services to increase coverage
+          partial: Improve logging coverage to above 70%
+          good: Maintain high logging coverage in critical services
+        file_types:
+          - '*.java'
+  - name: Log Centralization
+    description: Are logs centralized in a unified platform for search and analysis?
+    weight: 6
+    max_score: 5
+    criteria:
+      - name: log_centralization_indicators
+        description: >-
+          Detect configuration or code indicating log centralization (e.g., ELK,
+          Splunk)
+        patterns:
+          - logstash
+          - elk
+          - splunk
+          - fluentd
+          - graylog
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        recommendations:
+          missing: Integrate logs into a centralized logging platform
+          partial: Expand log centralization coverage
+          good: Maintain centralized logging infrastructure
+        file_types:
+          - '*.java'
+          - '*.yml'
+          - '*.yaml'
+          - '*.properties'
+  - name: Structured Logging
+    description: >-
+      Are logs structured (e.g., JSON) to support parsing, correlation, and
+      enrichment?
+    weight: 7
+    max_score: 5
+    criteria:
+      - name: structured_logging_usage
+        description: Detect usage of structured logging frameworks or JSON log formats
+        patterns:
+          - logstash-logback-encoder
+          - json-layout
+          - StructuredArguments
+          - LoggingEvent
+          - JsonFormatter
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        recommendations:
+          missing: Adopt structured logging formats like JSON
+          partial: Increase use of structured logging in application
+          good: Maintain structured logging practices
+        file_types:
+          - '*.java'
+          - '*.xml'
+          - '*.properties'
+  - name: Log Enrichment
+    description: >-
+      Are logs enriched with contextual metadata (e.g., trace ID, user ID,
+      environment)?
+    weight: 6.5
+    max_score: 5
+    criteria:
+      - name: log_enrichment_metadata
+        description: >-
+          Detect inclusion of contextual metadata in logs such as trace IDs or
+          user IDs
+        patterns:
+          - MDC\.put
+          - ThreadContext\.put
+          - traceId
+          - userId
+          - environment
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        recommendations:
+          missing: Add contextual metadata to logs for better traceability
+          partial: Enhance log enrichment with additional metadata
+          good: Maintain comprehensive log enrichment
+        file_types:
+          - '*.java'
+  - name: Log Retention & Rotation
+    description: Are logs rotated and retained according to policy and compliance needs?
+    weight: 5.5
+    max_score: 5
+    criteria:
+      - name: log_rotation_configuration
+        description: Detect log rotation and retention policies in configuration files
+        file_patterns:
+          - logback\.xml
+          - log4j2\.xml
+          - '*.properties'
+          - '*.yml'
+          - '*.yaml'
+        patterns:
+          - rollingPolicy
+          - maxHistory
+          - totalSizeCap
+          - logRetention
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        recommendations:
+          missing: Configure log rotation and retention policies to meet compliance
+          partial: Review and improve log retention policies
+          good: Maintain compliant log retention and rotation
+        file_types:
+          - '*.xml'
+          - '*.properties'
+          - '*.yml'
+          - '*.yaml'
+  - name: Log Query & Searchability
+    description: Are logs easily searchable and queryable for troubleshooting and analysis?
+    weight: 6
+    max_score: 5
+    criteria:
+      - name: log_query_capabilities
+        description: Detect integration or configuration supporting log search and query
+        patterns:
+          - Elasticsearch
+          - Kibana
+          - Splunk
+          - Graylog
+          - logQuery
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        recommendations:
+          missing: Implement log search and query capabilities
+          partial: Enhance log query and search integration
+          good: Maintain robust log query and search features
+        file_types:
+          - '*.java'
+          - '*.yml'
+          - '*.yaml'
+          - '*.properties'
+  - name: Log Alerting
+    description: Are alerts generated based on log patterns, errors, or anomalies?
+    weight: 6.5
+    max_score: 5
+    criteria:
+      - name: log_alerting_rules
+        description: Detect alerting rules or configurations based on log events
+        patterns:
+          - alert
+          - threshold
+          - anomalyDetection
+          - logAlert
+          - watcher
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        recommendations:
+          missing: Set up alerting based on log patterns and anomalies
+          partial: Improve log alerting coverage and accuracy
+          good: Maintain effective log alerting mechanisms
+        file_types:
+          - '*.yml'
+          - '*.yaml'
+          - '*.properties'
+  - description: Are logs correlated with metrics and traces for root cause analysis?
+    weight: 7
+    max_score: 65
+    criteria:
+      - name: log_correlation_indicators
+        description: Detect correlation of logs with metrics and tracing systems
+        patterns:
+          - traceId
+          - spanId
+          - correlationId
+          - OpenTracing
+          - OpenTelemetry
+        scoring:
+          comprehensive: 5
+          partial: 3
+          minimal: 1
+        recommendations:
+          missing: Integrate logs with metrics and tracing for correlation
+          partial: Enhance log correlation with observability data
+          good: Maintain integrated log correlation practices
+        file_types:
+          - '*.java'
+    name: Log Correlation
+  - name: Log Ingestion Monitoring
+    description: Is log ingestion monitored for delays, drops, or volume spikes?
+    weight: 5
+    max_score: 5
+    criteria:
+      - name: log_ingestion_monitoring
+        description: Detect monitoring configurations or code for log ingestion health
+        patterns:
+          - ingestionDelay
+          - logDrop
+          - volumeSpike
+          - logIngestionMonitor
