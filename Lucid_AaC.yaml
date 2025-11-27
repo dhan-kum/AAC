@@ -1,0 +1,82 @@
+architecture: AWS 3-Tier Web App Demo
+
+layers:
+  - name: Web Tier
+    subnets:
+      - name: Public Subnet (AZ1)
+        availability_zone: AZ1
+        components:
+          - type: EC2 Instance
+            name: Amazon EC2 (Web Server 1)
+      - name: Public Subnet (AZ2)
+        availability_zone: AZ2
+        components:
+          - type: EC2 Instance
+            name: Amazon EC2 (Web Server 2)
+  - name: App Tier
+    subnets:
+      - name: Private Subnet (AZ1)
+        availability_zone: AZ1
+        components:
+          - type: EC2 Instance
+            name: Amazon EC2 (App Server 1)
+      - name: Private Subnet (AZ2)
+        availability_zone: AZ2
+        components:
+          - type: EC2 Instance
+            name: Amazon EC2 (App Server 2)
+  - name: Database Tier
+    subnets:
+      - name: Private Subnet (AZ1)
+        availability_zone: AZ1
+        components:
+          - type: Amazon Aurora
+            name: Amazon Aurora Primary DB
+      - name: Private Subnet (AZ2)
+        availability_zone: AZ2
+        components:
+          - type: Amazon Aurora
+            name: Aurora Read Replica
+
+networking:
+  vpc: true
+  internet_gateway:
+    connected_to: Elastic Load Balancing (ELB)
+  elastic_load_balancer:
+    name: Elastic Load Balancing (ELB)
+    connected_to:
+      - Amazon EC2 (Web Server 1)
+      - Amazon EC2 (Web Server 2)
+
+availability_zones:
+  - AZ1
+  - AZ2
+
+connections:
+  - from: Internet Gateway
+    to: Elastic Load Balancing (ELB)
+  - from: Elastic Load Balancing (ELB)
+    to:
+      - Amazon EC2 (Web Server 1)
+      - Amazon EC2 (Web Server 2)
+  - from: Amazon EC2 (Web Server 1)
+    to: Amazon EC2 (App Server 1)
+  - from: Amazon EC2 (Web Server 2)
+    to: Amazon EC2 (App Server 2)
+  - from: Amazon EC2 (App Server 1)
+    to: Amazon Aurora Primary DB
+  - from: Amazon EC2 (App Server 2)
+    to: Amazon Aurora Primary DB
+  - from: Amazon Aurora Primary DB
+    to: Aurora Read Replica
+
+metadata:
+  high_availability: true
+  multi_az: true
+  subnet_types:
+    - public
+    - private
+  tiers:
+    - web
+    - app
+    - database
